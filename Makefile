@@ -1,17 +1,15 @@
-TARGET=test-madd
-OBJS=test-madd.o matrix.o madd.o
-SRCS=$(patsubst %.o,%.c,$(OBJS))
-HEADERS=matrix.h 
+TARGETS=server client
+SRCS=$(patsubst %,%.c,$(TARGETS))
 CC=gcc
-CFLAGS= -Wall -pthread -std=c99 -g
+CFLAGS= -Wall -g -pthread -Wextra -std=gnu99
 
-all : $(TARGET)
+all : $(TARGETS)
 
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+$(TARGETS): %: %.c
+	$(CC) $(CFLAGS) -o $@ $<
 
 clean: 
-	@rm -f $(OBJS) $(TARGET)
+	@rm -f $(TARGETS) *.o a.out 
 
-%.o : %.c $(HEADERS)
-	$(CC) $(CFLAGS) -c $<
+sub: 
+	@zip $${PWD##*/}.zip $(SRCS) Makefile
